@@ -110,7 +110,7 @@ end
 
 discover_item = function(target, item)
   if not target[item] then
-print('discovered', item)
+--print('discovered', item)
     target[item] = true
     return true
   end
@@ -472,7 +472,7 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       local b = string.match(content, "<roblox!.*</roblox>")
       if b then
         print("Running the binary_to_xml binary.")
-        local temp = file .. "rblx.tmp"
+        local temp = file .. "_rblx.tmp"
         local f = io.open(temp, "w")
         f:write(b)
         f:close()
@@ -481,6 +481,9 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         local handle = io.popen(command, "r")
         local output = handle:read("*a")
         handle:close()
+        if not string.match(output, "[%s]") then
+          error("No output retrieved.")
+        end
         discover_roblox_assets(output)
         return true
       end
