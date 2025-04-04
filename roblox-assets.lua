@@ -145,6 +145,7 @@ find_item = function(url)
 end
 
 set_item = function(url)
+  garbagecollect("collect")
   found = find_item(url)
   if found then
     item_type = found["type"]
@@ -167,6 +168,7 @@ set_item = function(url)
       print("Archiving item " .. item_name)
     end
   end
+  garbagecollect("collect")
 end
 
 allowed = function(url, parenturl)
@@ -413,7 +415,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
     local handle = io.popen(command)
     local output = handle:read("*a")
     handle:close()
-    handle = nil
 
     return output
   end
@@ -461,7 +462,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         end
       end
       check("https://assetdelivery.roblox.com/v1/asset?id="..asset_id)
-      output = nil
     end
 
     local asset_id, version = string.match(url, "^https?://assetdelivery%.roblox%.com/v2/assetId/([0-9]+)/version/([0-9]+)$")
@@ -504,7 +504,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
           error("No output retrieved.")
         end
         discover_roblox_assets(output)
-        output = nil
         return true
       end
       local c = string.match(content, "{.*}")  -- fonts are contained in a json file
@@ -529,7 +528,6 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
         if not output:match("not in gzip format") then
           check_roblox_type(output)
         end
-        output = nil
       end
     end
     -- direct file (sc*) end --
