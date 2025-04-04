@@ -606,8 +606,8 @@ wget.callbacks.get_urls = function(file, url, is_css, iri)
       for _, data in pairs(json["categories"]) do
         for _, item_data in pairs(data["items"]) do
           if item_data["type"] == "AssetType" then
-            check("https://www.roblox.com/users/favorites/list-json?assetTypeId=" .. tostring(item_data["id"]) .. "&cursor=&itemsPerPage=100&userId=" .. item_value)
-            check("https://inventory.roblox.com/v2/users/".. item_value .."/inventory/" .. tostring(item_data["id"]) .. "?cursor=&limit=100&sortOrder=Desc")
+            discover_item(discovered_items, "userinv:" .. item_value .. ":" .. tostring(item_data["id"]))
+            discover_item(discovered_items, "userfav:" .. item_value .. ":" .. tostring(item_data["id"]))
           end
         end
       end

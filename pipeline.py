@@ -274,6 +274,16 @@ class WgetArgs(object):
             elif item_type == 'user':
                 wget_args.extend(['--warc-header', 'roblox-user-id: '+item_value])
                 wget_args.append('https://users.roblox.com/v1/users/'+item_value)
+            elif item_type == 'userinv':
+                user_id, asset_type_id = item_value.split(':', 1)
+                wget_args.extend(['--warc-header', 'roblox-user-id: '+user_id])
+                wget_args.extend(['--warc-header', 'roblox-asset-type-id: '+asset_type_id])
+                wget_args.append('https://inventory.roblox.com/v2/users/'+user_id+'/inventory/'+asset_type_id+'?cursor=&limit=100&sortOrder=Desc')
+            elif item_type == 'userfav':
+                user_id, asset_type_id = item_value.split(':', 1)
+                wget_args.extend(['--warc-header', 'roblox-user-id: '+user_id])
+                wget_args.extend(['--warc-header', 'roblox-asset-type-id: '+asset_type_id])
+                wget_args.append('https://www.roblox.com/users/favorites/list-json?assetTypeId='+asset_type_id+'&cursor=&itemsPerPage=100&userId='+user_id)
             # elif item_type == 'group':
             #     wget_args.extend(['--warc-header', 'roblox-group-id: '+item_value])
             #     wget_args.append('https://groups.roblox.com/v1/groups/'+item_value)
